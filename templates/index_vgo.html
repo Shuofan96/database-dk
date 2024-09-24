@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Database_VGO
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center" style="font-size: 32px; color: goldenrod;">Select a Database</h1>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <a href="/table_list.html?db_name=vgo_db_1" class="btn btn-primary m-2"  style="background-color: green; border-color: goldenrod;">VGO_db_1</a>
+        <a href="/table_list.html?db_name=vgo_db_2" class="btn btn-primary m-2"  style="background-color: green; border-color: goldenrod;">VGO_db_2</a>
+        <a href="/table_list.html?db_name=vgo_db_DSZ" class="btn btn-primary m-2"  style="background-color: green; border-color: goldenrod;">VGO_db_DSZ</a>
+    </div>
+    <p class="text-center" style="font-size: 12px; color: #2c3e50;">
+        There are there databases of vacuum gas oils.<br>
+        These samples were all collected from CNPC's refineries, but they were analyzed in different batches.<br>
+        vgo_db_1 and vgo_db_2 are narrow vacuum gas oil distillates and vgo_db_DSZ are whole vacuum gas oil distillates.
+    </p>
+    <div class="text-center mt-4">
+        <img src="{{ url_for('static', filename='images/database_koala.jpg') }}" alt="Database Image" class="img-fluid" style="max-width: 20%; height: auto;">
+    </div>
+</div>
+{% endblock %}
+

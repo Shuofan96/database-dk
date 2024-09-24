@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sample List
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-center" style="font-size: 32px; color: goldenrod;">Sample List</h1>
+    <div class="container">
+        {% if sample_names and sample_names|length > 0 %}
+            <table class="table table-bordered mx-auto" style="width: 80%;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sample ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sample_name, tables in sample_names.items() %}
+                        <tr>
+                            <td>{{ loop.index }}</td>  <!-- 自动生成 ID -->
+                            <td>
+                                <a href="/data_list/{{ sample_name }}?db_name={{ db_name }}" class="btn btn-primary" role="button" style="width: 30%;" >{{ sample_name }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No samples available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Select Plot Type for {{ table_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center" style="font-size: 32px; color: goldenrod;">Select Plot Type for {{ table_name }}</h1>
+
+    <form action="/generate_plot" method="post">
+        <input type="hidden" name="table_name" value="{{ table_name }}">
+        <input type="hidden" name="db_name" value="{{ db_name }}">
+
+        <div class="form-group">
+            <label for="x_column">X-axis Column:</label>
+            <select name="x_column" id="x_column" class="form-control" required>
+                {% for column in column_names %}
+                <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="y_column">Y-axis Column:</label>
+            <select name="y_column" id="y_column" class="form-control" required>
+                {% for column in column_names %}
+                <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="plot_type">Plot Type:</label>
+            <select name="plot_type" id="plot_type" class="form-control" required>
+                <option value="line">Line Plot</option>
+                <option value="bar">Bar Plot</option>
+                <option value="scatter">Scatter Plot</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Generate Plot</button>
+    </form>
+</div>
+{% endblock %}
+

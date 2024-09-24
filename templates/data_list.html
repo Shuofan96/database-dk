@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Analytical data for {{ sample_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center" style="font-size: 32px; color: goldenrod;">Analytical data for {{ sample_name }}</h1>
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th style="width: 30px; vertical-align: middle;">Item No.</th>  <!-- 设置“Item No.”列的宽度 -->
+                <th style="width: 100px; vertical-align: middle;">Analytical item</th>  <!-- 设置“Analytical item”列的宽度 -->
+                <th style="width: 30px; vertical-align: middle;">View Figures</th>  <!-- 确保垂直居中 -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for table in tables %}
+            <tr>
+                <td style="text-align: center; vertical-align: middle; width: 30px;">{{ loop.index }}</td>  <!-- 自动生成的数字从1开始 -->
+                <td style="text-align: center; vertical-align: middle;">  <!-- 添加垂直居中 -->
+                    <a href="/table_list/table/{{ table }}?db_name={{ db_name }}" class="btn"
+                       style="width: 60%; background-color: dodgerblue; color: white; text-align: center; padding: 5px; border-radius: 30px; display: inline-block;">
+                       {{ table }}
+                    </a>
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <a href="/generate_plot/{{ table }}/{{ loop.index }}?db_name={{ db_name }}" class="btn"
+                       style="background-color: dodgerblue; color: white; padding: 5px 10px; border-radius: 100px;">
+                       Enter
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

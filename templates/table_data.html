@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{table_name}}
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-center" style="font-size: 32px; color: goldenrod;">{{ table_name }}</h1>
+    <div style="overflow-x: auto; max-width: 100%;">
+        <table id="dataTable" class="table table-bordered" style="width: 100%; font-size: 12px; color: #333;">
+            <thead>
+                <tr>
+                    {% for column in column_names %}
+                        <th style="background-color: #b6d4fe; border: 1px solid #a7acb1; padding: 10px;text-align: center; vertical-align: middle;">
+                            {{ column }}
+                            <br>
+                            {% if table_name.endswith('_formula') %}
+                                <select class="filter-select" style="width: 100%; text-align: center; vertical-align: middle; font-size: 10px; color: #333;">
+                                    <option value="">Select {{ column }}</option>
+                                    {% for value in rows|map(attribute=column)|unique %}
+                                        <option value="{{ value }}">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <span></span>
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for column in column_names %}
+                            <td style="vertical-align: middle;">{{ row[column] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ column_names|length }}">No data available</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Initialize DataTable with rowCallback
+    var table = $('#dataTable').DataTable({
+        "rowCallback": function(row, data, index) {
+            // 使用交替的背景色
+            $(row).css('background-color', index % 2 === 0 ? '#f2f2f2' : '#b6d4fe');
+        }
+    });
+
+    // Filter on select change
+    $('.filter-select').on('change', function() {
+        // Get all selected values
+        var filters = {};
+        $('.filter-select').each(function() {
+            var column = $(this).parent().index(); // Get the column index
+            var value = $(this).val(); // Get the selected value
+            filters[column] = value; // Store filter value by column index
+        });
+
+        // Apply filters
+        $.each(filters, function(column, value) {
+            // Search and redraw the table based on filters
+            if (value) {
+                table.column(column).search(value).draw(); // Search and redraw the table
+            } else {
+                table.column(column).search('').draw(); // Clear filter for that column
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
